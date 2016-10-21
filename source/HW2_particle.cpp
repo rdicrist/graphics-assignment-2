@@ -21,7 +21,7 @@ public:
       loc = vec2(0.0, 0.0);
       color = vec3(rand()/(float)RAND_MAX, rand()/(float)RAND_MAX, rand()/(float)RAND_MAX);
       accel = vec2(0.0, -9.8);
-      vel =   vec2(3.0, 3.0);
+      vel =   normalize(vec2(0.5, 0.5))*3.0;
     };
     vec2 loc;
     vec2 vel;
@@ -82,9 +82,6 @@ public:
     
     //Generate buffer to hold our vertex data
     glGenBuffers( 1, &buffer );
-    //Set GL state to use this buffer
-    glBindBuffer( GL_ARRAY_BUFFER, buffer );
-    
     
     glEnableVertexAttribArray(vpos_location);
     glEnableVertexAttribArray( vcolor_location );
@@ -103,6 +100,9 @@ public:
       col[i] = particles[i]->color;
     }
     
+    //Set GL state to use this buffer
+    glBindBuffer( GL_ARRAY_BUFFER, buffer );
+    
     //Create GPU buffer to hold vertices and color
     glBufferData( GL_ARRAY_BUFFER, particles.size()*sizeof(vec2) + particles.size() *sizeof(vec3), NULL, GL_STATIC_DRAW );
     //First part of array holds vertices
@@ -112,6 +112,8 @@ public:
 
     glVertexAttribPointer( vpos_location, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0) );
     glVertexAttribPointer( vcolor_location, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(particles.size()*sizeof(vec2)) );
+
+    glBindBuffer( GL_ARRAY_BUFFER, 0 );
 
     delete[] pos;
     delete[] col;
@@ -186,7 +188,6 @@ int main(void)
   
   glClearColor(1.0, 1.0, 1.0, 1.0);
   glPointSize(5.0);
-  
   
   while (!glfwWindowShouldClose(window)){
     
