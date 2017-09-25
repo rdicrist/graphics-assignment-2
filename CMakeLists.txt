@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-PROJECT(HW2)
+PROJECT(ASSIGNMENT_2)
 SET(CMAKE_BUILD_TYPE "Release")
 
 if (!MSVC)
@@ -23,16 +23,16 @@ CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/shaders/shader.h.in ${CMAKE_SOURCE_DIR}/shade
 
 include_directories(${CMAKE_SOURCE_DIR}/src
 					${CMAKE_SOURCE_DIR}/shaders)
-add_executable(HW2_particle WIN32 MACOSX_BUNDLE 
-	source/HW2_particle.cpp 
+add_executable(particle WIN32 MACOSX_BUNDLE 
+	source/particle.cpp 
 	shaders/fshader.glsl
 	shaders/vshader.glsl
 	source/common/Angel.h
 	source/common/mat.h
     source/common/vec.h)
 	
-	add_executable(HW2_puzzle WIN32 MACOSX_BUNDLE 
-		source/HW2_puzzle.cpp 
+	add_executable(puzzle WIN32 MACOSX_BUNDLE 
+		source/puzzle.cpp 
 		shaders/fshader_tex.glsl
 		shaders/vshader_tex.glsl
 		source/common/Angel.h
@@ -42,22 +42,22 @@ add_executable(HW2_particle WIN32 MACOSX_BUNDLE
 #Windows cleanup
 if (MSVC)
     # Tell MSVC to use main instead of WinMain for Windows subsystem executables
-    set_target_properties(HW2_particle PROPERTIES LINK_FLAGS "/ENTRY:mainCRTStartup")
-    set_target_properties(HW2_puzzle PROPERTIES LINK_FLAGS "/ENTRY:mainCRTStartup")
+    set_target_properties(particle PROPERTIES LINK_FLAGS "/ENTRY:mainCRTStartup")
+    set_target_properties(puzzle PROPERTIES LINK_FLAGS "/ENTRY:mainCRTStartup")
 endif()
 
 #Apple cleanup
 if (APPLE)
-    set_target_properties(HW2_particle PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "simple")
+    set_target_properties(particle PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "simple")
 	
-    set_target_properties(HW2_particle PROPERTIES
+    set_target_properties(particle PROPERTIES
                           MACOSX_BUNDLE_SHORT_VERSION_STRING ${GLFW_VERSION}
                           MACOSX_BUNDLE_LONG_VERSION_STRING ${GLFW_VERSION_FULL}
     					  MACOSX_BUNDLE_ICON_FILE glfw.icns)
 						  
-	set_target_properties(HW2_puzzle PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "simple")
+	set_target_properties(puzzle PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "simple")
 	
-	set_target_properties(HW2_puzzle PROPERTIES
+	set_target_properties(puzzle PROPERTIES
 					      MACOSX_BUNDLE_SHORT_VERSION_STRING ${GLFW_VERSION}
 					      MACOSX_BUNDLE_LONG_VERSION_STRING ${GLFW_VERSION_FULL}
 					      MACOSX_BUNDLE_ICON_FILE glfw.icns)						  

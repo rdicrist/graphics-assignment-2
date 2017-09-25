@@ -71,6 +71,7 @@ void init(){
                           vec2( 1.0, 0.0)};
   
   
+  
   std::string vshader = shader_path + "vshader_tex.glsl";
   std::string fshader = shader_path + "fshader_tex.glsl";
   
@@ -185,21 +186,24 @@ int main(void)
     
     //Do not change
     mat4 P = Ortho2D(-1.0, 1.0, -1.0, 1.0);
+    
+    //Right now the identity, change
+    mat4 M1, M2, M3, M4;
   
     glBindTexture( GL_TEXTURE_2D, texId );
     
     glBindVertexArray( sq_vao );
 
-    glUniformMatrix4fv( PM_location, 1, GL_TRUE, P);
+    glUniformMatrix4fv( PM_location, 1, GL_TRUE, P*M1);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-    glUniformMatrix4fv( PM_location, 1, GL_TRUE, P);
+    glUniformMatrix4fv( PM_location, 1, GL_TRUE, P*M2);
     glDrawArrays(GL_TRIANGLE_STRIP, 4, 4);
 
-    glUniformMatrix4fv( PM_location, 1, GL_TRUE, P);
+    glUniformMatrix4fv( PM_location, 1, GL_TRUE, P*M3);
     glDrawArrays(GL_TRIANGLE_STRIP, 8, 4);
 
-    glUniformMatrix4fv( PM_location, 1, GL_TRUE, P);
+    glUniformMatrix4fv( PM_location, 1, GL_TRUE, P*M4);
     glDrawArrays(GL_TRIANGLE_STRIP, 12, 4);
     glBindVertexArray( 0 );
 
