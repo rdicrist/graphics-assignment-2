@@ -56,7 +56,7 @@ const GLfloat  RadiansToDegrees = 180.0/M_PI;
 static char*
 readShaderSource(const char* shaderFile)
 {
-  FILE* fp = fopen(shaderFile, "r");
+  FILE* fp = fopen(shaderFile, "rb");
   
   if ( fp == NULL ) { return NULL; }
   
