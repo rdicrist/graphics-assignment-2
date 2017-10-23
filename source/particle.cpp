@@ -8,6 +8,9 @@
 #include <stdio.h>
 #include <vector>
 
+//included math for absolute value
+#include <math.h>
+
 using namespace Angel;
 
 
@@ -18,15 +21,17 @@ public:
   public:
     Particle(){
       //Code changes here
-      loc = vec2(0.0, 0.0);
+    //changed the parameters to be random
+      loc = vec2(0.0, 5.0);
       color = vec3(rand()/(float)RAND_MAX, rand()/(float)RAND_MAX, rand()/(float)RAND_MAX);
-      accel = vec2(0.0, -9.8);
-      vel =   normalize(vec2(0.5, 0.5))*3.0;
+        accel = vec2(0.0, -9.8);
+        vel = vec2(rand()%10 - 5, rand()%10 - 5);
     };
     vec2 loc;
     vec2 vel;
     vec2 accel;
     vec3 color;
+      
   };
 
   Particles(){};
@@ -129,7 +134,43 @@ public:
     for (std::vector< Particle * >::iterator it = particles.begin() ; it != particles.end(); ++it){
       (*it)->vel += (*it)->accel*dt;
       (*it)->loc += (*it)->vel*dt;
-    }  
+        
+        //parameters for the bounds to make it bounce 
+        if ((*it)->loc.y <= -5.0){
+            (*it)->loc.y = -5.0;
+            (*it)->vel *= -0.5;
+        }
+        
+        if ((*it)->loc.y >= 5.0){
+            (*it)->loc.y = 5.0;
+            (*it)->vel *= -0.5;
+
+        }
+        if ((*it)->loc.x <= -5.0){
+            (*it)->loc.x = -5.0;
+            (*it)->vel *= -0.5;
+            
+        }
+        if ((*it)->loc.x >= 5.0){
+            (*it)->loc.x = 5.0;
+            (*it)->vel *= -0.5;
+            
+        }
+
+    }
+      
+      for (std::vector< Particle * >::iterator it = particles.begin() ; it != particles.end(); ++it){
+          (*it)->vel += (*it)->accel*dt;
+          (*it)->loc += (*it)->vel*dt;
+          
+          //if absolute value of either velocity is (basically) 0
+      
+          if (fabs ((*it)->vel.y)  <= .00055  || fabs ((*it)->vel.x)  <= .00055){
+              delete *it;
+              it = particles.erase(it);
+              break;
+          }
+      }
   };
 };
 
